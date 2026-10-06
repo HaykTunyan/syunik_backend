@@ -1,0 +1,13 @@
+/// Prisma data contract for syunik-backend
+/// This file defines the data model used by Prisma Platform v8 ORM.
+/// Reference: https://www.prisma.io/docs/orm/v8
+
+model City {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String?
+  latitude    Float?
+  longitude   Float?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
