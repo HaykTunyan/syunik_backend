@@ -59,21 +59,29 @@ enum PlaceCategory {
 }
 
 model Place {
-  id        Int           @id @default(autoincrement())
-  slug      String        @unique
-  nameEn    String
-  nameHy    String?
-  shortEn   String
-  shortHy   String?
-  category  PlaceCategory @default(OTHER)
-  image     String?
-  latitude  Float?
-  longitude Float?
-  featured  Boolean       @default(false)
-  sortOrder Int           @default(0)
-  published Boolean       @default(true)
-  city      City?         @relation(fields: [cityId], references: [id])
-  cityId    Int?
+  id            Int           @id @default(autoincrement())
+  slug          String        @unique
+  nameEn        String
+  nameHy        String?
+  shortEn       String
+  shortHy       String?
+  category      PlaceCategory @default(OTHER)
+  icon          String?
+  image         String?
+  locationEn    String?
+  locationHy    String?
+  descriptionEn String?
+  descriptionHy String?
+  altitudeM     Int?
+  latitude      Float?
+  longitude     Float?
+  featured      Boolean       @default(false)
+  mostVisited   Boolean       @default(false)
+  historical    Boolean       @default(false)
+  sortOrder     Int           @default(0)
+  published     Boolean       @default(true)
+  city          City?         @relation(fields: [cityId], references: [id])
+  cityId        Int?
 
   @@index([cityId])
 }

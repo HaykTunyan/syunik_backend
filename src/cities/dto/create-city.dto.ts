@@ -11,7 +11,7 @@ import {
   Matches,
   Min,
 } from 'class-validator';
-import type { Lang } from '../comman/lang.js';
+import type { Lang } from '../../common/lang.js';
 
 export class CreateCityDto {
   @IsString() @Matches(/^[a-z0-9-]+$/) slug!: string;

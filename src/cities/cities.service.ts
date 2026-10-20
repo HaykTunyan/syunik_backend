@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service.js';
-import { Lang, pick, pickList, pickOpt } from './comman/lang.js';
+import { Lang, pick, pickList, pickOpt } from '../common/lang.js';
 import { CreateCityDto, UpdateCityDto } from './dto/create-city.dto.js';
 
 type CityRow = NonNullable<
