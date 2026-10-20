@@ -44,6 +44,10 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
+## API documentation
+
+Start the application and open [http://localhost:3000/docs](http://localhost:3000/docs) to view and try the Swagger UI. The OpenAPI JSON document is available at [http://localhost:3000/docs-json](http://localhost:3000/docs-json).
+
 ## Run tests
 
 ```bash

@@ -15,10 +15,105 @@ datasource db {
 
 model City {
   id          Int      @id @default(autoincrement())
-  name        String
-  description String?
-  latitude    Float?
-  longitude   Float?
+  slug        String   @unique
+  nameEn      String
+  nameHy      String?
+  taglineEn   String
+  taglineHy   String?
+  areaKm2     Float
+  foundedEn   String
+  foundedHy   String?
+  population  Int
+  latitude    Float
+  longitude   Float
+  heroImage   String?
+  climateEn   String?
+  climateHy   String?
+  bestVisitEn String?
+  bestVisitHy String?
+  historyEn   String?
+  historyHy   String?
+  sortOrder   Int      @default(0)
+  published   Boolean  @default(true)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+
+  places      Place[]
+  hotels      Hotel[]
+  attractions CityAttraction[]
+  links       CityLink[]
+}
+
+enum PlaceCategory {
+  MONASTERY
+  FORTRESS
+  NATURE
+  BRIDGE
+  CAVE
+  VIEWPOINT
+  OBSERVATORY
+  MONUMENT
+  WATERFALL
+  TOWN
+  OTHER
+}
+
+model Place {
+  id        Int           @id @default(autoincrement())
+  slug      String        @unique
+  nameEn    String
+  nameHy    String?
+  shortEn   String
+  shortHy   String?
+  category  PlaceCategory @default(OTHER)
+  image     String?
+  latitude  Float?
+  longitude Float?
+  featured  Boolean       @default(false)
+  sortOrder Int           @default(0)
+  published Boolean       @default(true)
+  city      City?         @relation(fields: [cityId], references: [id])
+  cityId    Int?
+
+  @@index([cityId])
+}
+
+model Hotel {
+  id          Int      @id @default(autoincrement())
+  name        String
+  stars       Int      @default(4)
+  address     String
+  phone       String?
+  priceFrom   Int
+  priceTo     Int
+  currency    String   @default("USD")
+  score       Float
+  reviewCount Int      @default(0)
+  amenitiesEn String[] @default([])
+  amenitiesHy String[] @default([])
+  bookingUrl  String?
+  sortOrder   Int      @default(0)
+  published   Boolean  @default(true)
+  city        City     @relation(fields: [cityId], references: [id], onDelete: Cascade)
+  cityId      Int
+
+  @@index([cityId])
+}
+
+model CityAttraction {
+  id        Int     @id @default(autoincrement())
+  textEn    String
+  textHy    String?
+  sortOrder Int     @default(0)
+  city      City    @relation(fields: [cityId], references: [id], onDelete: Cascade)
+  cityId    Int
+}
+
+model CityLink {
+  id        Int    @id @default(autoincrement())
+  label     String
+  url       String
+  sortOrder Int    @default(0)
+  city      City   @relation(fields: [cityId], references: [id], onDelete: Cascade)
+  cityId    Int
 }
