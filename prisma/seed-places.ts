@@ -279,11 +279,11 @@ const placesData: PlaceSeedData[] = [
   },
 ];
 
-async function seedPlaces() {
+export async function seedPlaces(client: PrismaClient = prisma) {
   console.log('Seeding places...');
 
   // Fetch all cities to map slug -> id
-  const cities = await prisma.city.findMany({
+  const cities = await client.city.findMany({
     select: { id: true, slug: true },
   });
   const cityMap = new Map(cities.map((c) => [c.slug, c.id]));
@@ -308,7 +308,7 @@ async function seedPlaces() {
       cityId,
     };
 
-    await prisma.place.upsert({
+    await client.place.upsert({
       where: { slug: place.slug },
       update: data,
       create: data,
@@ -319,9 +319,11 @@ async function seedPlaces() {
   console.log(`Successfully seeded ${count} places.`);
 }
 
-seedPlaces()
-  .catch((e) => {
-    console.error('Failed to seed places:', e);
-    process.exit(1);
-  })
-  .finally(() => prisma.$disconnect());
+if (process.argv[1]?.endsWith('seed-places.ts')) {
+  seedPlaces()
+    .catch((e) => {
+      console.error('Failed to seed places:', e);
+      process.exit(1);
+    })
+    .finally(() => prisma.$disconnect());
+}

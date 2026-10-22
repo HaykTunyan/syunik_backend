@@ -83,7 +83,40 @@ model Place {
   city          City?         @relation(fields: [cityId], references: [id])
   cityId        Int?
 
+  heritageCards HeritageCard[]
+
   @@index([cityId])
+}
+
+model HistorySection {
+  id         Int      @id @default(autoincrement())
+  slug       String   @unique
+  tagEn      String?
+  tagHy      String?
+  titleEn    String
+  titleHy    String?
+  subtitleEn String?
+  subtitleHy String?
+  bodyEn     String
+  bodyHy     String?
+  quoteEn    String?
+  quoteHy    String?
+  image      String?
+  sortOrder  Int      @default(0)
+  published  Boolean  @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model HeritageCard {
+  id        Int      @id @default(autoincrement())
+  place     Place    @relation(fields: [placeId], references: [id], onDelete: Cascade)
+  placeId   Int
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([placeId])
 }
 
 model Hotel {
@@ -124,4 +157,72 @@ model CityLink {
   sortOrder Int    @default(0)
   city      City   @relation(fields: [cityId], references: [id], onDelete: Cascade)
   cityId    Int
+}
+
+
+model RoadSection {
+  id        Int     @id @default(autoincrement())
+  slug      String  @unique
+  tagEn     String?
+  tagHy     String?
+  titleEn   String
+  titleHy   String?
+  bodyEn    String
+  bodyHy    String?
+  image     String?
+  sortOrder Int     @default(0)
+  published Boolean @default(true)
+}
+
+model RouteStop {
+  id         Int     @id @default(autoincrement())
+  nameEn     String
+  nameHy     String?
+  distanceKm Int
+  citySlug   String?
+  placeSlug  String?
+  sortOrder  Int     @default(0)
+}
+
+model RoadTip {
+  id        Int     @id @default(autoincrement())
+  titleEn   String
+  titleHy   String?
+  bodyEn    String
+  bodyHy    String?
+  sortOrder Int     @default(0)
+}
+
+
+model ContactMessage {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String
+  message   String
+  handled   Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+}
+
+model SiteSetting {
+  key      String  @id
+  valueEn  String
+  valueHy  String?
+  isPublic Boolean @default(true)
+}
+
+
+enum Role {
+  USER
+  ADMIN
+}
+
+model User {
+  id           Int      @id @default(autoincrement())
+  email        String   @unique
+  name         String?
+  passwordHash String
+  role         Role     @default(USER)
+  createdAt    DateTime @default(now())
 }
