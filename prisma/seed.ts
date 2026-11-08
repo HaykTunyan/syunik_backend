@@ -1,6 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import { seedPlaces } from './seed-places.js';
 import { seedHistory } from './seed-history.js';
+import { seedShop } from './seed-shop.js';
 
 const prisma = new PrismaClient();
 
@@ -246,6 +247,7 @@ async function main() {
     await seedKapan();
     await seedPlaces(prisma);
     await seedHistory(prisma);
+    await seedShop(prisma);
     console.log('Seed finished');
 }
 

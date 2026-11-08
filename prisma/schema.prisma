@@ -226,3 +226,69 @@ model User {
   role         Role     @default(USER)
   createdAt    DateTime @default(now())
 }
+
+
+enum OrderStatus {
+  NEW
+  CONFIRMED
+  SHIPPED
+  DELIVERED
+  CANCELLED
+}
+
+model Product {
+  id            Int      @id @default(autoincrement())
+  slug          String   @unique
+  nameEn        String
+  nameHy        String?
+  collectionEn  String?
+  collectionHy  String?
+  badgeEn       String?
+  badgeHy       String?
+  descriptionEn String
+  descriptionHy String?
+  detailsEn     String[] @default([])
+  detailsHy     String[] @default([])
+  priceMinor    Int
+  currency      String   @default("USD")
+  sizes         String[] @default([])
+  images        String[] @default([])
+  sortOrder     Int      @default(0)
+  published     Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  orderItems    OrderItem[]
+}
+
+model Order {
+  id           Int         @id @default(autoincrement())
+  number       String      @unique
+  customerName String
+  phone        String
+  email        String?
+  city         String
+  address      String
+  note         String?
+  status       OrderStatus @default(NEW)
+  totalMinor   Int
+  currency     String
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+
+  items        OrderItem[]
+
+  @@index([status, createdAt])
+}
+
+model OrderItem {
+  id             Int     @id @default(autoincrement())
+  order          Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  orderId        Int
+  product        Product @relation(fields: [productId], references: [id])
+  productId      Int
+  productName    String
+  size           String
+  quantity       Int
+  unitPriceMinor Int
+}

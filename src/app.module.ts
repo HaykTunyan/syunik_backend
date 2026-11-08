@@ -6,6 +6,7 @@ import { CitiesModule } from './cities/cities.module.js';
 import { HistoryModule } from './history/history.module.js';
 import { PlacesModule } from './places/places.module.js';
 import { PrismaModule } from './prisma/prisma.module.js';
+import { ShopModule } from './shop/shop.module.js';
 // import { AuthModule } from './auth/auth.module.js';
 
 export const { ObserveModule, ObserveInstrument } = createObserveModule();
@@ -23,6 +24,7 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
     HistoryModule,
     PlacesModule,
     PrismaModule,
+    ShopModule,
     // AuthModule,
   ],
   controllers: [AppController],
