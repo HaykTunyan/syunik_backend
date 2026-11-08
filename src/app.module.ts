@@ -2,30 +2,29 @@ import { Module } from '@nestjs/common';
 import { createObserveModule } from '@nestjs/observe';
 import { AppController } from './app.controller.js';
 import { AppService } from './app.service.js';
+import { AuthModule } from './auth/auth.module.js';
 import { CitiesModule } from './cities/cities.module.js';
+import { ContactModule } from './contact/contact.module.js';
 import { HistoryModule } from './history/history.module.js';
 import { PlacesModule } from './places/places.module.js';
 import { PrismaModule } from './prisma/prisma.module.js';
+import { RoadModule } from './roads/road.module.js';
+import { SettingsModule } from './settings/settings.module.js';
 import { ShopModule } from './shop/shop.module.js';
-// import { AuthModule } from './auth/auth.module.js';
 
 export const { ObserveModule, ObserveInstrument } = createObserveModule();
 
 @Module({
   imports: [
-    // Distributed tracing, auto-correlated logs, request/job metrics, error
-    // telemetry, alarms, and more — out of the box. Sign up at https://observe.nestjs.com
-    ObserveModule.forRoot({
-      appKey: 'YOUR_APP_KEY',
-      appSecret: 'YOUR_APP_SECRET',
-      serviceId: 'syunik-backend',
-    }),
+    PrismaModule,
+    AuthModule,
     CitiesModule,
+    ContactModule,
     HistoryModule,
     PlacesModule,
-    PrismaModule,
+    RoadModule,
+    SettingsModule,
     ShopModule,
-    // AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
